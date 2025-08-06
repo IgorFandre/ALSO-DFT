@@ -4,11 +4,11 @@
 # *On the Generalization of SFT*: <br>A Reinforcement Learning Perspective with Reward Rectification
 
 <a href="" target="_blank">
-    <img alt="arXiv" src="https://img.shields.io/badge/arXiv-SFT vs RL-red?logo=arxiv" height="25" />
+    <img alt="arXiv" src="https://img.shields.io/badge/arXiv-DFT-red?logo=arxiv" height="25" />
 </a>
 
 <a href="" target="_blank">
-    <img alt="HF Model: Cambrian-1" src="https://img.shields.io/badge/%F0%9F%A4%97%20_Model-Checkpoints&Data-ffc107?color=ffc107&logoColor=white" height="25" />
+    <img alt="HF Model: Cambrian-1" src="https://img.shields.io/badge/%F0%9F%A4%97%20_Huggingface-Models-ffc107?color=ffc107&logoColor=white" height="25" />
 </a>
 
 <br>
