@@ -1,30 +1,110 @@
 
 <div align="center">
 
-# *On the Generalization of SFT*: <br>A Reinforcement Learning Perspective with Reward Rectification
+# *On the Generalization of SFT*: <br>A Reinforcement Learning Perspective with <br>Reward Rectification
 
 <a href="" target="_blank">
     <img alt="arXiv" src="https://img.shields.io/badge/arXiv-DFT-red?logo=arxiv" height="25" />
 </a>
 
-<a href="" target="_blank">
+<a href="https://huggingface.co/collections/Liang0223/dft-6892da5e421a56a8deb48c9f" target="_blank">
     <img alt="HF Model: Cambrian-1" src="https://img.shields.io/badge/%F0%9F%A4%97%20_Huggingface-Models-ffc107?color=ffc107&logoColor=white" height="25" />
 </a>
+
+<div style="font-family: charter; text-align: center; margin: 0 auto;">
+                    <a href="https://yongliang-wu.github.io/" class="author-link" target="_blank">Yongliang Wu*</a> &emsp;
+                    <a href="https://scholar.google.com/citations?user=dHBNmSkAAAAJ" class="author-link" target="_blank">Yizhou Zhou*</a> &emsp;
+                    <a href="https://scholar.google.com/citations?user=IH2wK1cAAAAJ" class="author-link" target="_blank">Zhou Ziheng</a> &emsp;
+                    <a href="https://github.com/ForJadeForest" class="author-link" target="_blank">Yingzhe Peng</a> &emsp;
+                    <br>
+                    <a href="https://scholar.google.com/citations?user=fdwhd9gAAAAJ" class="author-link" target="_blank">Xinyu Ye</a> &emsp;
+                    <a href="https://joyhuyy1412.github.io/" class="author-link" target="_blank">Xinting Hu</a> &emsp;
+                    <a href="https://scholar.google.com/citations?user=z_4-QfQAAAAJ" class="author-link" target="_blank">Wenbo Zhu</a> &emsp;
+                    <a href="http://luqi.info/" class="author-link" target="_blank">Lu Qi</a> &emsp;
+                    <a href="https://faculty.ucmerced.edu/mhyang/" class="author-link" target="_blank">Ming-Hsuan Yang</a> &emsp;
+                    <a href="https://yxpalmweb.github.io/" class="author-link" target="_blank">Xu Yang</a> &emsp;
+</div>
 
 <br>
 </div>
 
+## 📰 News
 
-## News
-- [2025.8.8] We release the training scripts, evaluation scripts, and checkpoints.
+* **\[2025.08.08]** We have released the training scripts, evaluation scripts, and model checkpoints.
 
-## Installation
+## ⚙️ Installation
 
+Our codebase has been tested on H100 servers with the following environment:
 
-## Getting Started
+* `python 3.10.0`
+* `torch 2.6.0+cu124`
 
+```bash
+git clone https://github.com/yongliang-wu/DFT.git
+cd DFT
+```
 
-## Acknowledgement
+### 🔧 Set Up Training Environment
 
-- [verl](https://github.com/volcengine/verl): We use verl framework for training our models.
-- [Qwen2.5-Math](https://github.com/QwenLM/Qwen2.5-Math): We use Qwen2.5-Math's codes to evaluate the results.
+```bash
+conda create -n DFT python=3.10 -y
+conda activate DFT
+cd DFT
+bash scripts/install_vllm_sglang_mcore.sh
+pip install --no-deps -e .
+cd ..
+```
+
+## 🚀 Getting Started
+
+### Step 1: Prepare Data
+
+```bash
+# Generate training data (optional: change --train_end to control volume)
+python examples/data_preprocess/numina_cot.py --train_end 100000
+
+# Generate evaluation data
+python examples/data_preprocess/math_dataset.py
+```
+
+### Step 2: Launch Training
+
+```bash
+nproc_per_node=8
+project_name=numina-cot
+
+experiment_name=numina-cot-dft-qwen-2.5-math-1.5b
+save_path=checkpoints/$experiment_name
+
+torchrun --standalone --nnodes=1 --nproc_per_node=$nproc_per_node \
+    -m verl.trainer.fsdp_sft_trainer_scale \
+    data.train_files=data/numina_cot/train.parquet \
+    data.val_files=data/math500/test.parquet \
+    data.prompt_key=extra_info \
+    data.response_key=extra_info \
+    data.train_batch_size=256 \
+    data.max_length=2048 \
+    optim.lr=5e-5 \
+    data.prompt_dict_keys=['question'] \
+    data.response_dict_keys=['answer'] \
+    data.micro_batch_size_per_gpu=4 \
+    model.partial_pretrain=Qwen/Qwen2.5-Math-1.5B \
+    model.use_liger=True \
+    model.fsdp_config.model_dtype=bf16 \
+    trainer.default_local_dir=$save_path \
+    trainer.project_name=$project_name \
+    trainer.experiment_name="$experiment_name-$(date +%Y%m%d-%H%M%S)" \
+    trainer.logger=['console','tensorboard'] \
+    trainer.default_hdfs_dir=null \
+    trainer.test_freq=10 \
+    trainer.save_freq=50 \
+    trainer.total_epochs=1 \
+    trainer.scale=0 \
+    ulysses_sequence_parallel_size=1 \
+    use_remove_padding=true
+```
+
+## 🙏 Acknowledgements
+
+* [**verl**](https://github.com/volcengine/verl): The core training framework used in this project.
+* [**Qwen2.5-Math**](https://github.com/QwenLM/Qwen2.5-Math): Codebase and model used for evaluation.
