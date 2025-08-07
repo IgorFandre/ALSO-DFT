@@ -363,21 +363,17 @@ class FSDPSFTTrainer:
                 # Enable model parallelism
                 shift_labels = shift_labels.to(shift_logits.device)
                 
-                # 计算每个token的预测概率
                 probs = torch.softmax(shift_logits, dim=-1)
                 predicted_probs = probs.gather(1, shift_labels.unsqueeze(-1)).squeeze(-1)
-                # 概率越低，系数越小，并进行截断
                 if self.scale > 0:
-                    prob_coefficients = torch.clamp(predicted_probs, min=self.scale)  # 设置最小概率系数
+                    prob_coefficients = torch.clamp(predicted_probs, min=self.scale)
                 else:
                     prob_coefficients = predicted_probs
                 
-                # 计算交叉熵损失
                 loss = loss_fct(shift_logits, shift_labels)
-                # 应用概率系数加权
                 original_loss = loss.clone()
                 loss = loss * prob_coefficients.detach()
-                # 应用loss mask
+
                 loss = loss * loss_mask.to(loss.device)
                 original_loss = original_loss * loss_mask.to(original_loss.device)
             else:
