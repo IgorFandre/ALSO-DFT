@@ -104,7 +104,31 @@ torchrun --standalone --nnodes=1 --nproc_per_node=$nproc_per_node \
     use_remove_padding=true
 ```
 
-## 🙏 Acknowledgements
+### Step 3: Evaluation
+
+To evaluate the trained model, please first follow the [Qwen2.5-Math repository](https://github.com/QwenLM/Qwen2.5-Math) to set up the evaluation environment.
+
+```bash
+# Select the prompt format matching your model
+PROMPT_TYPE="qwen-boxed"
+# PROMPT_TYPE="llama-base-boxed"
+# PROMPT_TYPE="deepseek-math"
+
+# Set available GPUs
+export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
+
+# Configure sampling settings
+N_SAMPLING=16
+TEMPERATURE=1
+
+# Specify model and output directories
+MODEL_NAME_OR_PATH=""  # e.g., checkpoints/your-model-name
+OUTPUT_DIR=""          # e.g., outputs/eval_results
+
+# Run evaluation
+bash sh/eval.sh $PROMPT_TYPE $MODEL_NAME_OR_PATH $OUTPUT_DIR $N_SAMPLING $TEMPERATURE
+```
+## Acknowledgements
 
 * [**verl**](https://github.com/volcengine/verl): The core training framework used in this project.
 * [**Qwen2.5-Math**](https://github.com/QwenLM/Qwen2.5-Math): Codebase and model used for evaluation.
