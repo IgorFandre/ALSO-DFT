@@ -3,7 +3,7 @@
 
 # *On the Generalization of SFT*: <br>A Reinforcement Learning Perspective with <br>Reward Rectification
 
-<a href="" target="_blank">
+<a href="http://arxiv.org/abs/2508.05629" target="_blank">
     <img alt="arXiv" src="https://img.shields.io/badge/arXiv-DFT-red?logo=arxiv" height="25" />
 </a>
 
