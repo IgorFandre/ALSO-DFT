@@ -3,6 +3,7 @@
 
 # *On the Generalization of SFT*: <br>A Reinforcement Learning Perspective with <br>Reward Rectification
 
+
 <a href="http://arxiv.org/abs/2508.05629" target="_blank">
     <img alt="arXiv" src="https://img.shields.io/badge/arXiv-DFT-red?logo=arxiv" height="25" />
 </a>
@@ -49,7 +50,7 @@ cd DFT
 ```bash
 conda create -n DFT python=3.10 -y
 conda activate DFT
-cd DFT
+cd verl
 bash scripts/install_vllm_sglang_mcore.sh
 pip install --no-deps -e .
 cd ..
