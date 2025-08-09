@@ -44,7 +44,7 @@ Here’s a shorter version for your README:
 DFT is a **one-line change** to standard SFT: scale each token’s loss by its predicted probability (detached to avoid gradient flow).
 
 ```python
-loss = loss * torch.softmax(shift_logits, dim=-1).gather(1, shift_labels.unsqueeze(-1)).squeeze(-1)
+loss = loss * torch.softmax(shift_logits, dim=-1).gather(1, shift_labels.unsqueeze(-1)).squeeze(-1).detach()
 ```
 
 ## ⚙️ Installation
