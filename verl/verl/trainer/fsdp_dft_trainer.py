@@ -102,7 +102,6 @@ class FSDPSFTTrainer:
         if self.config.data.chat_template is not None:
             raise ValueError("Apply Chat template from config is not supported yet.")
 
-        self.scale = self.config.trainer.scale
         # normalize dp size
         self._normalize_config_bsz()
 
@@ -363,17 +362,13 @@ class FSDPSFTTrainer:
                 # Enable model parallelism
                 shift_labels = shift_labels.to(shift_logits.device)
                 
-                probs = torch.softmax(shift_logits, dim=-1)
-                predicted_probs = probs.gather(1, shift_labels.unsqueeze(-1)).squeeze(-1)
-                if self.scale > 0:
-                    prob_coefficients = torch.clamp(predicted_probs, min=self.scale)
-                else:
-                    prob_coefficients = predicted_probs
-                
+
                 loss = loss_fct(shift_logits, shift_labels)
                 original_loss = loss.clone()
-                loss = loss * prob_coefficients.detach()
 
+                probs = torch.softmax(shift_logits, dim=-1)
+                prob_coefficients = probs.gather(1, shift_labels.unsqueeze(-1)).squeeze(-1)
+                loss = loss * prob_coefficients.detach()
                 loss = loss * loss_mask.to(loss.device)
                 original_loss = original_loss * loss_mask.to(original_loss.device)
             else:

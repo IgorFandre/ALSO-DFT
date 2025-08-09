@@ -33,6 +33,20 @@
 
 * **\[2025.08.08]** We have released the training scripts, evaluation scripts, and model checkpoints.
 
+## Abstract
+We present a simple yet theoretically motivated improvement to Supervised Fine-Tuning (SFT) for the Large Language Model (LLM), addressing its limited generalization compared to reinforcement learning (RL). Through mathematical analysis, we reveal that standard SFT gradients implicitly encode a problematic reward structure that may severely restrict the generalization capabilities of model. To rectify this, we propose Dynamic Fine-Tuning (DFT), stabilizing gradient updates for each token by dynamically rescaling the objective function with the probability of this token. Remarkably, this single-line code change significantly outperforms standard SFT across multiple challenging benchmarks and base models, demonstrating greatly improved generalization. Additionally, our approach shows competitive results in offline RL settings, offering an effective yet simpler alternative. This work bridges theoretical insight and practical solutions, substantially advancing SFT performance.
+
+Here’s a shorter version for your README:
+
+---
+
+## Code Implementation
+DFT is a **one-line change** to standard SFT: scale each token’s loss by its predicted probability (detached to avoid gradient flow).
+
+```python
+loss = loss * torch.softmax(shift_logits, dim=-1).gather(1, shift_labels.unsqueeze(-1)).squeeze(-1)
+```
+
 ## ⚙️ Installation
 
 Our codebase has been tested on H100 servers with the following environment:
@@ -77,12 +91,12 @@ experiment_name=numina-cot-dft-qwen-2.5-math-1.5b
 save_path=checkpoints/$experiment_name
 
 torchrun --standalone --nnodes=1 --nproc_per_node=$nproc_per_node \
-    -m verl.trainer.fsdp_sft_trainer_scale \
+        -m verl.trainer.fsdp_dft_trainer \
     data.train_files=data/numina_cot/train.parquet \
     data.val_files=data/math500/test.parquet \
     data.prompt_key=extra_info \
     data.response_key=extra_info \
-    data.train_batch_size=256 \
+    data.train_batch_size=256 \ 
     data.max_length=2048 \
     optim.lr=5e-5 \
     data.prompt_dict_keys=['question'] \
@@ -99,7 +113,6 @@ torchrun --standalone --nnodes=1 --nproc_per_node=$nproc_per_node \
     trainer.test_freq=10 \
     trainer.save_freq=50 \
     trainer.total_epochs=1 \
-    trainer.scale=0 \
     ulysses_sequence_parallel_size=1 \
     use_remove_padding=true
 ```
