@@ -53,7 +53,6 @@ conda activate DFT
 cd verl
 bash scripts/install_vllm_sglang_mcore.sh
 pip install --no-deps -e .
-cd ..
 ```
 
 ## 🚀 Getting Started
