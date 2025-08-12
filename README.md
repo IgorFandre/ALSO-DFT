@@ -139,7 +139,7 @@ bash sh/eval.sh $PROMPT_TYPE $MODEL_NAME_OR_PATH $OUTPUT_DIR $N_SAMPLING $TEMPER
 ```
 
 ## Limitations
-Based on our evaluations and community feedback, DFT performs strongly on tasks with non-deterministic solution trajectories—i.e., those that admit multiple valid reasoning paths—such as mathematical chain-of-thought (CoT) reasoning, solutions to highly complex coding problems, and multimodal reasoning with informative CoT. By contrast, its performance is weaker on tasks with a single, well-specified ground-truth answer, particularly when the associated CoT is highly constrained and near-deterministic (low-entropy).
+Based on our evaluations and community feedback, DFT performs strongly on tasks with non-deterministic solution trajectories—i.e., those that admit multiple valid reasoning paths—such as mathematical chain-of-thought (CoT) reasoning, solutions to highly complex coding problems, and multimodal reasoning with informative CoT. By contrast, its performance is weaker on tasks with a single, well-specified ground-truth answer, particularly when the associated CoT (if exists) is highly constrained and near-deterministic (low-entropy).
 
 ## Citation
 If you find this paper valuable for your research or applications, we would appreciate it if you could cite our work:
