@@ -156,3 +156,4 @@ If you find this paper valuable for your research or applications, we would appr
 ## Related Materials
 * [https://github.com/yongliang-wu/DFT/issues/1#issuecomment-3175037902](https://github.com/yongliang-wu/DFT/issues/1#issuecomment-3175037902): Some experimental observations and discussions of DFT.
 * [https://github.com/Lauorie/DFT](https://github.com/Lauorie/DFT): Reproduced the DFT method without using Verl.
+* [https://www.arxiv.org/pdf/2507.18119](https://www.arxiv.org/pdf/2507.18119): GOAT-SLM uses a similar confidence-based automatic gradient masking strategy (Section 4.3)
