@@ -148,7 +148,10 @@ If you find this paper valuable for your research or applications, we would appr
   year={2025}
 }
 ```
-## Acknowledgements
 
-* [**verl**](https://github.com/volcengine/verl): The core training framework used in this project.
-* [**Qwen2.5-Math**](https://github.com/QwenLM/Qwen2.5-Math): Codebase and model used for evaluation.
+## Acknowledgements
+* [https://github.com/volcengine/verl](https://github.com/volcengine/verl): The core training framework used in this project.
+* [https://github.com/QwenLM/Qwen2.5-Math](https://github.com/QwenLM/Qwen2.5-Math): Codebase and model used for evaluation.
+
+## Related Materials
+* [https://github.com/Lauorie/DFT](https://github.com/Lauorie/DFT): Reproduced the DFT method without using Verl.
