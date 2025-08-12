@@ -154,4 +154,5 @@ If you find this paper valuable for your research or applications, we would appr
 * [https://github.com/QwenLM/Qwen2.5-Math](https://github.com/QwenLM/Qwen2.5-Math): Codebase and model used for evaluation.
 
 ## Related Materials
+* [https://github.com/yongliang-wu/DFT/issues/1#issuecomment-3175037902](https://github.com/yongliang-wu/DFT/issues/1#issuecomment-3175037902): Some experimental observations and discussions of DFT.
 * [https://github.com/Lauorie/DFT](https://github.com/Lauorie/DFT): Reproduced the DFT method without using Verl.
