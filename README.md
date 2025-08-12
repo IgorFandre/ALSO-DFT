@@ -137,6 +137,17 @@ OUTPUT_DIR=""          # e.g., outputs/eval_results
 # Run evaluation
 bash sh/eval.sh $PROMPT_TYPE $MODEL_NAME_OR_PATH $OUTPUT_DIR $N_SAMPLING $TEMPERATURE
 ```
+
+## Citation
+If you find this paper valuable for your research or applications, we would appreciate it if you could cite our work:
+```latex
+@article{wu2025generalization,
+  title={On the Generalization of SFT: A Reinforcement Learning Perspective with Reward Rectification},
+  author={Wu, Yongliang and Zhou, Yizhou and Ziheng, Zhou and Peng, Yingzhe and Ye, Xinyu and Hu, Xinting and Zhu, Wenbo and Qi, Lu and Yang, Ming-Hsuan and Yang, Xu},
+  journal={arXiv preprint arXiv:2508.05629},
+  year={2025}
+}
+```
 ## Acknowledgements
 
 * [**verl**](https://github.com/volcengine/verl): The core training framework used in this project.
