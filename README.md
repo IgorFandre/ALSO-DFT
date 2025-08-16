@@ -29,7 +29,7 @@
 <br>
 </div>
 
-## Thanks for the Feedback of Community
+## 🌟 Thanks for the Feedback of Community
 
 We are grateful for the many thoughtful comments and feedback from the community regarding DFT, ranging from discussions of related ideas to reports of its application in different scenarios. We have heard of both successes and failures when applying DFT, for instance in literary or financial tasks.
 
