@@ -29,6 +29,26 @@
 <br>
 </div>
 
+## Thanks for the Feedback of Community
+
+We are grateful for the many thoughtful comments and feedback from the community regarding DFT, ranging from discussions of related ideas to reports of its application in different scenarios. We have heard of both successes and failures when applying DFT, for instance in literary or financial tasks.
+
+Here, we would like to clarify that we do not claim DFT can replace SFT in all cases, as noted in our limitations section:
+
+> *“While our experiments demonstrate substantial gains from DFT on mathematical reasoning benchmarks, this evaluation is confined to math-focused and code-focused (will be released in next version) datasets and models up to 7 billion parameters.”*
+
+---
+
+Nonetheless, these less successful cases, as well as community discussions on platforms such as Zhihu or Xiao Hong Shu about the intuitive principles behind DFT, together with our own experimental experience, have prompted us to think more deeply about the conditions under which DFT works well, and why it may be less effective in other contexts.
+
+All this feedback reminds us of a remark by computing pioneer Richard Hamming in *The Art of Doing Science and Engineering: Learning to Learn* (p.27), which we have slightly adapted:
+
+> *“Almost everyone who opens up a new field does not really understand it the way the followers—or the critics—do.”*
+
+---
+
+We hope this work can contribute to renewed interest in exploring the interplay between SFT and RL, and in better understanding the factors that underlie both the successes and the limitations of methods like DFT. Looking ahead, we also welcome researchers who are interested in our work to improve DFT in some of the currently unsuccessful cases, or in leveraging the ideas to uncover other connections between RL algorithms and SFT, ultimately aiming to achieve RL-like benefits at the cost of SFT across a broader range of settings.
+
 ## 📰 News
 
 * **\[2025.08.08]** We have released the training scripts, evaluation scripts, and model checkpoints.
@@ -156,8 +176,4 @@ If you find this paper valuable for your research or applications, we would appr
 * [https://github.com/modelscope/ms-swift](https://github.com/modelscope/ms-swift): ms-swift supports DFT now, check [this script](https://github.com/modelscope/ms-swift/blob/main/examples/train/full/dft.sh).
 * [https://github.com/Lauorie/DFT](https://github.com/Lauorie/DFT): Reproduced the DFT method without using Verl.
 * [https://github.com/volcengine/verl](https://github.com/volcengine/verl): The core training framework used in this project.
-* [https://github.com/QwenLM/Qwen2.5-Math](https://github.com/QwenLM/Qwen2.5-Math): Codebase and model used for evaluation.
-
-## Star History
-
-![Star History Chart](https://api.star-history.com/svg?repos=yongliang-wu/DFT&type=Date)
+* [https://github.com/QwenLM/Qwen2.5-Math](https://github.com/QwenLM/Qwen2.5-Math): Codebase used for evaluation.
