@@ -112,7 +112,7 @@ torchrun --standalone --nnodes=1 --nproc_per_node=$nproc_per_node \
     data.val_files=data/math500/test.parquet \
     data.prompt_key=extra_info \
     data.response_key=extra_info \
-    data.train_batch_size=256 \ 
+    data.train_batch_size=256 \
     data.max_length=2048 \
     optim.lr=5e-5 \
     data.prompt_dict_keys=['question'] \
