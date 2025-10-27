@@ -27,6 +27,10 @@ import logging
 import re
 from contextlib import nullcontext
 
+from typing import List, Tuple, Dict, Optional, Callable, Union, Any, Iterable
+from typing_extensions import ParamSpec, Self, TypeAlias
+from torch import Tensor
+
 import hydra
 import torch
 import torch.distributed
@@ -72,6 +76,8 @@ if is_cuda_available:
     from flash_attn.bert_padding import index_first_axis, pad_input, rearrange, unpad_input
 elif is_npu_available:
     from transformers.integrations.npu_flash_attention import index_first_axis, pad_input, rearrange, unpad_input
+
+from also import ALSO
 
 logger = logging.getLogger(__file__)
 logger.setLevel(os.getenv("VERL_SFT_LOGGING_LEVEL", "WARN"))
@@ -135,9 +141,26 @@ class FSDPSFTTrainer:
         assert self.config.data.train_batch_size % self.config.data.micro_batch_size_per_gpu == 0
 
     def _build_dataloader(self, train_dataset, val_dataset):
-        # build dataset
         config = self.config
-        self.train_dataset, self.val_dataset = train_dataset, val_dataset
+
+        # build dataset
+        class IndexedDataset(torch.utils.data.Dataset):
+            def __init__(
+                self, dataset: torch.utils.data.Dataset, transform: Optional[Callable] = None
+            ):
+                self._dataset = dataset
+                self.transform = transform
+
+            def __len__(self) -> int:
+                return len(self._dataset)
+
+            def __getitem__(self, i: int) -> Tuple[Tuple[torch.Tensor, torch.Tensor], int]:
+                X, y = self._dataset[i]
+                if self.transform is not None:
+                    X = self.transform(X)
+                return (X, y), i
+
+        self.train_dataset, self.val_dataset = IndexedDataset(train_dataset), IndexedDataset(val_dataset)
 
         # build dataloader
         # Use data parallel rank and size instead of global rank and world size
@@ -301,11 +324,13 @@ class FSDPSFTTrainer:
 
         log_gpu_memory_usage("After FSDP wrapping", logger=logger)
 
-        self.optimizer = optim.AdamW(
-            self.fsdp_model.parameters(),
+        self.optimizer = ALSO(
+            params=self.fsdp_model.parameters(),
             lr=self.config.optim.lr,
+            n_groups=len(self.train_dataset),
             betas=self.config.optim.betas,
             weight_decay=self.config.optim.weight_decay,
+            batch_size=self.config.data.micro_batch_size_per_gpu
         )
 
         log_gpu_memory_usage("After initialize optimizer", logger=logger)
